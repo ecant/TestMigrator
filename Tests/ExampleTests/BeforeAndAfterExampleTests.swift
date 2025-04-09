@@ -12,7 +12,7 @@ import Testing
 		print("another top-level setup")
 	}
 
-	@Test func test_doesTheStuff() {
+	@Test func doesTheStuff() async throws {
 		print("top-level justBeforeEach")
 
 		print(helloWorld)

@@ -3,7 +3,7 @@ import Nimble
 import XCTest
 
 final class FirstClassExampleTests: XCTestCase {
-	func test_doesTheThing() {
+	func test_doesTheThing() async throws {
 		expect(true).to(beTrue())
 		expect(false).to(beFalse())
 	}
@@ -20,7 +20,7 @@ enum SomeNamespace {
 	final class SecondClassExampleTests: XCTestCase {
 		let somethingWasHere = true
 
-		func test_doesTheThingAlso() {
+		func test_doesTheThingAlso() async throws {
 			FakeService().makeItSo()
 			expect("").to(beEmpty())
 		}

@@ -87,7 +87,7 @@ final class XCTestClassRewriter: SyntaxRewriter {
 	private static func generateTestFunctionDeclaration(from parsedTest: ParsedQuickTest) -> FunctionDeclSyntax {
 		try! FunctionDeclSyntax(
 			"""
-			func test_\(raw: parsedTest.name)() {
+			func test_\(raw: parsedTest.name)() async throws {
 			    \(raw: parsedTest.blocks.formattedString())
 			}
 			""")

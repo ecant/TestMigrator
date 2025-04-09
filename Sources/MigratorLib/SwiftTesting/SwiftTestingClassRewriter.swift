@@ -70,7 +70,7 @@ final class SwiftTestingClassRewriter: SyntaxRewriter {
         let blocks = (parsedTest.blocks + parsedSpec.afterEachBlocks).formattedString()
         return try! FunctionDeclSyntax(
             """
-            @Test func test_\(raw: parsedTest.name)() {
+            @Test func \(raw: parsedTest.name)() async throws {
                 \(raw: blocks)
             }
             """)

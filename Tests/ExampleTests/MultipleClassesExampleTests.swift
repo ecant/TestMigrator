@@ -2,7 +2,7 @@ import Foundation
 import Testing
 
 @Suite struct FirstClassExampleTests {
-	@Test func test_doesTheThing() {
+	@Test func doesTheThing() async throws {
 		// Convert to `#expect`: expect(true).to(beTrue())
 		// Convert to `#expect`: expect(false).to(beFalse())
 	}
@@ -19,7 +19,7 @@ enum SomeNamespace {
 	@Suite struct SecondClassExampleTests {
 		let somethingWasHere = true
 
-		@Test func test_doesTheThingAlso() {
+		@Test func doesTheThingAlso() async throws {
 			FakeService().makeItSo()
 			// Convert to `#expect`: expect("").to(beEmpty())
 		}

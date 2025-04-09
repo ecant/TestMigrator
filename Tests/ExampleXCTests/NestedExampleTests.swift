@@ -9,7 +9,7 @@ final class NestedExampleTests: XCTestCase {
 		print("top-level setup")
 	}
 
-	func test_whenFooBecomesBar_doesTheStuff() {
+	func test_whenFooBecomesBar_doesTheStuff() async throws {
 		let somethingInScope = true
 
 		print("prepare stuff")
@@ -23,7 +23,7 @@ final class NestedExampleTests: XCTestCase {
 		print("clean foo")
 	}
 
-	func test_whenFooBecomesBar_andTheServiceFails_logsTheErrorMessage() {
+	func test_whenFooBecomesBar_andTheServiceFails_logsTheErrorMessage() async throws {
 		let somethingInScope = true
 
 		let somethingDeeperInScope = true

@@ -9,7 +9,7 @@ let package = Package(
 		.macOS(.v15)
 	],
 	products: [
-		.executable(name: "test-migrator-cli", targets: ["MigratorCLI"])
+		.executable(name: "test-migrator-cli", targets: ["TestMigratorCLI"])
 	],
 	dependencies: [
 		.package(url: "https://github.com/swiftlang/swift-syntax.git", from: "601.0.0"),
@@ -20,7 +20,7 @@ let package = Package(
 	],
 	targets: [
 		.executableTarget(
-			name: "MigratorCLI",
+			name: "TestMigratorCLI",
 			dependencies: [
 				.target(name: "MigratorLib"),
 				.product(name: "ArgumentParser", package: "swift-argument-parser"),

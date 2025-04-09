@@ -23,7 +23,7 @@ final class BeforeAndAfterExampleTests: XCTestCase {
 		print("another top-level teardown")
 	}
 
-	func test_doesTheStuff() {
+	func test_doesTheStuff() async throws {
 		print("top-level justBeforeEach")
 
 		print(helloWorld)

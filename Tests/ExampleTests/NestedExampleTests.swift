@@ -6,7 +6,7 @@ import Testing
 		print("top-level setup")
 	}
 
-	@Test func test_whenFooBecomesBar_doesTheStuff() {
+	@Test func whenFooBecomesBar_doesTheStuff() async throws {
 		let somethingInScope = true
 
 		print("prepare stuff")
@@ -20,7 +20,7 @@ import Testing
 		print("clean foo")
 	}
 
-	@Test func test_whenFooBecomesBar_andTheServiceFails_logsTheErrorMessage() {
+	@Test func whenFooBecomesBar_andTheServiceFails_logsTheErrorMessage() async throws {
 		let somethingInScope = true
 
 		let somethingDeeperInScope = true

@@ -2,7 +2,7 @@ import Foundation
 import Testing
 
 @Suite struct BasicExampleTests {
-	@Test func test_whenFooBecomesBar_doesTheStuff() {
+	@Test func whenFooBecomesBar_doesTheStuff() async throws {
 		print("prepare stuff")
 		print("prepare more stuff")
 

@@ -18,6 +18,13 @@ final class SimpleSwiftTestingMigratorTests: XCTestCase {
         XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
     }
 
+    func testNoQuickSpec_leavesContentAlone() throws {
+        let input = "class SomeClass: SomeSuperClass {\n}"
+        let expectedOutput = input
+        let actualOutput = try Formatter.format(source: Migrator.migrateToSwiftTesting(input))
+        XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
+    }
+    
     func testNoSpecFunction_stillMigratesAndAddsNewlines() throws {
         let input = "class ExampleSpec: QuickSpec {}"
         let expectedOutput = "@Suite struct ExampleTests {\n\n}"

@@ -11,6 +11,13 @@ final class SimpleXCTestMigratorTests: XCTestCase {
 		XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
 	}
 
+    func testNimbleImportLeftAlone() throws {
+        let input = "import Nimble"
+        let expectedOutput = input
+        let actualOutput = try Formatter.format(source: Migrator.migrateToXCTest(input))
+        XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
+    }
+    
 	func testNoSpecFunction_stillConvertsToXCTestAndAddsNewlines() throws {
 		let input = "class ExampleSpec: QuickSpec {}"
 		let expectedOutput = "final class ExampleTests: XCTestCase {\n\n}"
@@ -18,6 +25,13 @@ final class SimpleXCTestMigratorTests: XCTestCase {
 		XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
 	}
 
+    func testNoQuickSpec_leavesContentAlone() throws {
+        let input = "class SomeClass: SomeSuperClass {\n}"
+        let expectedOutput = input
+        let actualOutput = try Formatter.format(source: Migrator.migrateToXCTest(input))
+        XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
+    }
+    
 	func testNoSpecFunction_preservesNewlines() throws {
 		let input = "final class ExampleSpec: QuickSpec {\n\n}"
 		let expectedOutput = "final class ExampleTests: XCTestCase {\n\n}"
