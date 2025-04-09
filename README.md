@@ -1,3 +1,3 @@
-# QuickToXCTestMigrator
+# TestMigrator
 
-A description of this package.
+A command line tool that converts unit tests written with Quick into XCTest or Swift Testing.

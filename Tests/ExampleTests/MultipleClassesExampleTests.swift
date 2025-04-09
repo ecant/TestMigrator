@@ -1,28 +1,32 @@
 import Foundation
-import XCTest
-import Nimble
+import Testing
 
-final class FirstClassExampleTests: XCTestCase {
-    func test_DoesTheThing() {
-        expect(true).to(beTrue())
-        expect(false).to(beFalse())
-    }
+@Suite struct FirstClassExampleTests {
+	@Test func test_doesTheThing() {
+		// Convert to `#expect`: expect(true).to(beTrue())
+		// Convert to `#expect`: expect(false).to(beFalse())
+	}
 }
 
 struct FakeService {
-    func makeItSo() {}
+	func makeItSo() {
+
+	}
 }
 
 enum SomeNamespace {
-    
-    final class SecondClassExampleTests: XCTestCase {
-        func test_DoesTheThingAlso() {
-            FakeService().makeItSo()
-            expect("").to(beEmpty())
-        }
-    }
-    
-    final class ThirdClassExampleTests: XCTestCase {
-        
-    }
+
+	@Suite struct SecondClassExampleTests {
+		let somethingWasHere = true
+
+		@Test func test_doesTheThingAlso() {
+			FakeService().makeItSo()
+			// Convert to `#expect`: expect("").to(beEmpty())
+		}
+	}
+
+	@Suite struct ThirdClassExampleTests {
+		let somethingWasDefinitelyHere = true
+
+	}
 }

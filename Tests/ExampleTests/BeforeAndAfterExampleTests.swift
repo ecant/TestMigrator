@@ -1,31 +1,26 @@
 import Foundation
-import XCTest
-import Nimble
+import Testing
 
-final class BeforeAndAfterExampleTests: XCTestCase {
-    var something: String!
-    let helloWorld = true
-    
-    override func setUp() {
-        super.setUp()
+@Suite struct BeforeAndAfterExampleTests {
+	var something: String!
+	let helloWorld = true
 
-        something = ""
-        print(something ?? "")
-        
-        print("another top-level setup")
-    }
-    
-    override func tearDown() {
-        super.tearDown()
-        
-        print("top-level teardown")
-        
-        print("another top-level teardown")
-    }
+	init() {
+		something = ""
+		print(something ?? "")
 
-    func test_DoesTheStuff() {
-        print(helloWorld)
-        expect(true).to(beTrue())
-        expect(false).to(beFalse())
-    }
+		print("another top-level setup")
+	}
+
+	@Test func test_doesTheStuff() {
+		print("top-level justBeforeEach")
+
+		print(helloWorld)
+		// Convert to `#expect`: expect(true).to(beTrue())
+		// Convert to `#expect`: expect(false).to(beFalse())
+
+		print("top-level teardown")
+
+		print("another top-level teardown")
+	}
 }

@@ -1,13 +1,12 @@
 import Foundation
-import XCTest
-import Nimble
+import Testing
 
-final class BasicExampleTests: XCTestCase {
-	func test_WhenFooBecomesBar_DoesTheStuff() {
+@Suite struct BasicExampleTests {
+	@Test func test_whenFooBecomesBar_doesTheStuff() {
 		print("prepare stuff")
 		print("prepare more stuff")
-		
-		expect(true).to(beTrue())
-		expect(false).to(beFalse())
+
+		// Convert to `#expect`: expect(true).to(beTrue())
+		// Convert to `#expect`: expect(false).to(beFalse())
 	}
 }

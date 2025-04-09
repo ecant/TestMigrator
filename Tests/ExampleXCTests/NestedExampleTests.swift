@@ -1,12 +1,15 @@
 import Foundation
-import Testing
+import Nimble
+import XCTest
 
-@Suite struct NestedExampleTests {
-	init() {
+final class NestedExampleTests: XCTestCase {
+	override func setUp() {
+		super.setUp()
+
 		print("top-level setup")
 	}
 
-	@Test func test_whenFooBecomesBar_doesTheStuff() {
+	func test_whenFooBecomesBar_doesTheStuff() {
 		let somethingInScope = true
 
 		print("prepare stuff")
@@ -14,13 +17,13 @@ import Testing
 
 		print("Stuff right before each test")
 
-		// Convert to `#expect`: expect(true).to(beTrue())
-		// Convert to `#expect`: expect(false).to(beFalse())
+		expect(true).to(beTrue())
+		expect(false).to(beFalse())
 
 		print("clean foo")
 	}
 
-	@Test func test_whenFooBecomesBar_andTheServiceFails_logsTheErrorMessage() {
+	func test_whenFooBecomesBar_andTheServiceFails_logsTheErrorMessage() {
 		let somethingInScope = true
 
 		let somethingDeeperInScope = true
@@ -38,7 +41,7 @@ import Testing
 
 		print("LAST stuff right before this test")
 
-		// Convert to `#expect`: expect("").to(beEmpty())
+		expect("").to(beEmpty())
 
 		print("clean up the things")
 
