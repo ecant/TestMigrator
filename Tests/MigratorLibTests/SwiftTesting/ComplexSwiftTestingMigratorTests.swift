@@ -7,6 +7,8 @@ import XCTest
 final class ComplexSwiftTestingMigratorTests: XCTestCase {
     override class func setUp() {
         do {
+            /// Format the input test files with swift-format before running tests. We also format the generated output in each test.
+            /// This avoids false negatives in test comparisons due exclusively to formatting differences.
             try Formatter.formatExampleTestsFilesInPackage()
         } catch {
             XCTFail("ERROR: \(error)")
@@ -16,28 +18,24 @@ final class ComplexSwiftTestingMigratorTests: XCTestCase {
     func testBasicExampleFile() throws {
         let input = contents("ExampleSpecs/BasicExampleSpec.swift")
         let expectedOutput = contents("ExampleTests/BasicExampleTests.swift")
-        let actualOutput = try Formatter.format(source: Migrator.migrateToSwiftTesting(input))
-        XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
+        try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
     }
 
     func testBeforeAndAfterExampleFile() throws {
         let input = contents("ExampleSpecs/BeforeAndAfterExampleSpec.swift")
         let expectedOutput = contents("ExampleTests/BeforeAndAfterExampleTests.swift")
-        let actualOutput = try Formatter.format(source: Migrator.migrateToSwiftTesting(input))
-        XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
+        try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
     }
 
     func testMultipleClassesExampleFile() throws {
         let input = contents("ExampleSpecs/MultipleClassesExampleSpec.swift")
         let expectedOutput = contents("ExampleTests/MultipleClassesExampleTests.swift")
-        let actualOutput = try Formatter.format(source: Migrator.migrateToSwiftTesting(input))
-        XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
+        try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
     }
 
     func testNestedExampleFile() throws {
         let input = contents("ExampleSpecs/NestedExampleSpec.swift")
         let expectedOutput = contents("ExampleTests/NestedExampleTests.swift")
-        let actualOutput = try Formatter.format(source: Migrator.migrateToSwiftTesting(input))
-        XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
+        try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
     }
 }

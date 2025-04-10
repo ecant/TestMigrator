@@ -4,38 +4,39 @@ import XCTest
 @testable import MigratorLib
 
 final class SimpleXCTestMigratorTests: XCTestCase {
-	func testQuickImportRenamed() throws {
-		let input = "import Quick"
-		let expectedOutput = "import XCTest"
-		let actualOutput = try Formatter.format(source: Migrator.migrateToXCTest(input))
-		XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
-	}
+    func testQuickImportRenamed() throws {
+        let input = "import Quick"
+        let expectedOutput = "import XCTest"
+        try migrateAndAssertEqual(input, expectedOutput, mode: .xctest)
+    }
 
     func testNimbleImportLeftAlone() throws {
         let input = "import Nimble"
         let expectedOutput = input
-        let actualOutput = try Formatter.format(source: Migrator.migrateToXCTest(input))
-        XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
+        try migrateAndAssertEqual(input, expectedOutput, mode: .xctest)
     }
-    
-	func testNoSpecFunction_stillConvertsToXCTestAndAddsNewlines() throws {
-		let input = "class ExampleSpec: QuickSpec {}"
-		let expectedOutput = "final class ExampleTests: XCTestCase {\n\n}"
-		let actualOutput = try Formatter.format(source: Migrator.migrateToXCTest(input))
-		XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
-	}
+
+    func testNoSpecFunction_stillConvertsToXCTestAndAddsNewlines() throws {
+        let input = "class ExampleSpec: QuickSpec {}"
+        let expectedOutput = "final class ExampleTests: XCTestCase {\n\n}"
+        try migrateAndAssertEqual(input, expectedOutput, mode: .xctest)
+    }
 
     func testNoQuickSpec_leavesContentAlone() throws {
         let input = "class SomeClass: SomeSuperClass {\n}"
         let expectedOutput = input
-        let actualOutput = try Formatter.format(source: Migrator.migrateToXCTest(input))
-        XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
+        try migrateAndAssertEqual(input, expectedOutput, mode: .xctest)
+    }
+
+    func testNoSpecFunction_preservesNewlines() throws {
+        let input = "class ExampleSpec: QuickSpec {\n\n}"
+        let expectedOutput = "final class ExampleTests: XCTestCase {\n\n}"
+        try migrateAndAssertEqual(input, expectedOutput, mode: .xctest)
     }
     
-	func testNoSpecFunction_preservesNewlines() throws {
-		let input = "final class ExampleSpec: QuickSpec {\n\n}"
-		let expectedOutput = "final class ExampleTests: XCTestCase {\n\n}"
-		let actualOutput = try Formatter.format(source: Migrator.migrateToXCTest(input))
-		XCTAssertEqual(expectedOutput.trimmed, actualOutput.trimmed)
-	}
+    func testEmptySpecFunctionReturnsNoTests() throws {
+        let input = "class ExampleSpec: QuickSpec { override class func spec() {} }"
+        let expectedOutput = "final class ExampleTests: XCTestCase {\n\n}"
+        try migrateAndAssertEqual(input, expectedOutput, mode: .xctest)
+    }
 }

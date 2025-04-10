@@ -3,36 +3,36 @@ import Nimble
 import Quick
 
 final class BeforeAndAfterExampleSpec: QuickSpec {
-	override class func spec() {
-		var something: String!
+    override class func spec() {
+        var something: String!
 
-		beforeEach {
-			something = ""
-			print(something ?? "")
-		}
+        beforeEach {
+            something = ""
+            print(something ?? "")
+        }
 
-		justBeforeEach {
-			print("top-level justBeforeEach")
-		}
+        justBeforeEach {
+            print("top-level justBeforeEach")
+        }
 
-		afterEach {
-			print("top-level teardown")
-		}
+        afterEach {
+            print("top-level teardown")
+        }
 
-		let helloWorld = true
+        let helloWorld = true
 
-		beforeEach {
-			print("another top-level setup")
-		}
+        beforeEach {
+            print("another top-level setup")
+        }
 
-		afterEach {
-			print("another top-level teardown")
-		}
+        afterEach {
+            print("another top-level teardown")
+        }
 
-		it("does the stuff") {
-			print(helloWorld)
-			expect(true).to(beTrue())
-			expect(false).to(beFalse())
-		}
-	}
+        it("does the stuff") {
+            print(helloWorld)
+            expect(true).to(beTrue())
+            expect(false).to(beFalse())
+        }
+    }
 }

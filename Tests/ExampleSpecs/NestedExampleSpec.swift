@@ -3,59 +3,59 @@ import Nimble
 import Quick
 
 final class NestedExampleSpec: QuickSpec {
-	override class func spec() {
-		beforeEach {
-			print("top-level setup")
-		}
+    override class func spec() {
+        beforeEach {
+            print("top-level setup")
+        }
 
-		describe("when foo becomes bar") {
-			let somethingInScope = true
+        describe("when foo becomes bar") {
+            let somethingInScope = true
 
-			justBeforeEach {
-				print("Stuff right before each test")
-			}
+            justBeforeEach {
+                print("Stuff right before each test")
+            }
 
-			beforeEach {
-				print("prepare stuff")
-				print(somethingInScope)
-			}
+            beforeEach {
+                print("prepare stuff")
+                print(somethingInScope)
+            }
 
-			afterEach {
-				print("clean foo")
-			}
+            afterEach {
+                print("clean foo")
+            }
 
-			it("does the stuff") {
-				expect(true).to(beTrue())
-				expect(false).to(beFalse())
-			}
+            it("does the stuff") {
+                expect(true).to(beTrue())
+                expect(false).to(beFalse())
+            }
 
-			context("and the service fails") {
-				let somethingDeeperInScope = true
+            context("and the service fails") {
+                let somethingDeeperInScope = true
 
-				beforeEach {
-					print("fake the service")
-				}
+                beforeEach {
+                    print("fake the service")
+                }
 
-				justBeforeEach {
-					print("MOOAR stuff right before this test")
-				}
+                justBeforeEach {
+                    print("MOOAR stuff right before this test")
+                }
 
-				beforeEach {
-					print(somethingDeeperInScope)
-				}
+                beforeEach {
+                    print(somethingDeeperInScope)
+                }
 
-				justBeforeEach {
-					print("LAST stuff right before this test")
-				}
+                justBeforeEach {
+                    print("LAST stuff right before this test")
+                }
 
-				afterEach {
-					print("clean up the things")
-				}
+                afterEach {
+                    print("clean up the things")
+                }
 
-				it("logs the error message") {
-					expect("").to(beEmpty())
-				}
-			}
-		}
-	}
+                it("logs the error message") {
+                    expect("").to(beEmpty())
+                }
+            }
+        }
+    }
 }

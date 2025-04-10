@@ -3,6 +3,7 @@ import SwiftSyntax
 import SwiftSyntaxBuilder
 
 final class SwiftTestingClassRewriter: SyntaxRewriter {
+    /// Visits each class declaration in the syntax tree and rewrites it if it subclasses `QuickSpec`.
     override func visit(_ node: ClassDeclSyntax) -> DeclSyntax {
         guard node.isQuickSpecSubclass else { return DeclSyntax(node) }
         let parsedClass = QuickClassParser.parseClass(from: node)
@@ -11,8 +12,9 @@ final class SwiftTestingClassRewriter: SyntaxRewriter {
 
     private static func generateDeclaration(from parsedClass: ParsedQuickClass) -> DeclSyntax {
         let className = parsedClass.className.replacingOccurrences(of: "Spec", with: "Tests")
-        let otherClassMembers = parsedClass.otherMembers.isEmpty ? nil : parsedClass.otherMembers.with(\.leadingTrivia, []).with(\.trailingTrivia, .newline).description
-        
+        let otherClassMembers =
+            parsedClass.otherMembers.isEmpty ? nil : parsedClass.otherMembers.with(\.leadingTrivia, []).with(\.trailingTrivia, .newline).description
+
         guard let parsedSpec = parsedClass.spec else {
             return DeclSyntax(
                 """
@@ -23,17 +25,17 @@ final class SwiftTestingClassRewriter: SyntaxRewriter {
             )
             .with(\.leadingTrivia, .newlines(2))
         }
-        
+
         let otherSpecItems = Self.generateOtherItems(from: parsedSpec)?.description
-        
+
         let initFunc = Self.generateInitFunctionDeclaration(from: parsedSpec)?.with(\.trailingTrivia, .newline).description
-        
+
         let testDeclarations = parsedSpec.tests
             .map { Self.generateTestFunctionDeclaration(from: $0, parsedSpec: parsedSpec) }
             .mapSkippingLast { $0.with(\.trailingTrivia, .newline) }
             .map { $0.description }
             .filter { $0.isNotEmpty }
-        
+
         let statements = ([otherClassMembers, otherSpecItems, initFunc].compacted() + testDeclarations)
             .mapSkippingLast { $0 + "\n" }
             .joined()

@@ -13,6 +13,13 @@ struct ParsedQuickSpecFunction {
     let tests: [ParsedQuickTest]
 }
 
+struct ParsedQuickDescribeBlock {
+    let beforeEachBlocks: [CodeBlockItemListSyntax]
+    let justBeforeEachBlocks: [CodeBlockItemListSyntax]
+    let afterEachBlocks: [CodeBlockItemListSyntax]
+    let otherItems: CodeBlockItemListSyntax
+}
+
 struct ParsedQuickTest {
     private let descriptions: [String]
     private let itBlock: CodeBlockItemListSyntax
@@ -24,7 +31,7 @@ struct ParsedQuickTest {
             .map { $0.toCamelCase() }
             .joined(separator: "_")
     }
-    
+
     var blocks: [CodeBlockItemListSyntax] {
         let otherItems = describeBlocks.reversed().map { $0.otherItems }
 
@@ -33,17 +40,14 @@ struct ParsedQuickTest {
         let beforeEachBlocks = describeBlocks.reversed().flatMap { $0.beforeEachBlocks }
 
         let justBeforeEachBlocks = describeBlocks.reversed().flatMap { $0.justBeforeEachBlocks }
-        
+
         /// The closest after each blocks to the "it" block should be run first, so these are in the correct order already
         let afterEachBlocks = describeBlocks.flatMap { $0.afterEachBlocks }
 
         return otherItems + beforeEachBlocks + justBeforeEachBlocks + [itBlock] + afterEachBlocks
     }
 
-    init(
-        itBlock: CodeBlockItemListSyntax, descriptions: [String],
-        describeBlocks: [ParsedQuickDescribeBlock]
-    ) {
+    init(itBlock: CodeBlockItemListSyntax, descriptions: [String], describeBlocks: [ParsedQuickDescribeBlock]) {
         self.itBlock = itBlock
         self.descriptions = descriptions
         self.describeBlocks = describeBlocks
@@ -56,7 +60,7 @@ struct ParsedQuickTest {
             describeBlocks: self.describeBlocks + [describeBlock]
         )
     }
-    
+
     func appending(describeBlock: ParsedQuickDescribeBlock) -> Self {
         ParsedQuickTest(
             itBlock: self.itBlock,
@@ -64,11 +68,4 @@ struct ParsedQuickTest {
             describeBlocks: self.describeBlocks + [describeBlock]
         )
     }
-}
-
-struct ParsedQuickDescribeBlock {
-    let beforeEachBlocks: [CodeBlockItemListSyntax]
-    let justBeforeEachBlocks: [CodeBlockItemListSyntax]
-    let afterEachBlocks: [CodeBlockItemListSyntax]
-    let otherItems: CodeBlockItemListSyntax
 }
