@@ -29,6 +29,7 @@ struct ParsedQuickTest {
         descriptions
             .reversed()
             .map { $0.toCamelCase() }
+            .map { $0.removingNonAlphanumerics() }
             .joined(separator: "_")
     }
 

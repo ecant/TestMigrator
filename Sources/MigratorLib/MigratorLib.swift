@@ -25,10 +25,6 @@ public enum Migrator {
         let tree = Parser.parse(source: source)
             .transform { SwiftTestingImportRewriter().visit($0) }
             .transform { SwiftTestingClassRewriter().visit($0) }
-        let content = tree.formatted().description
-
-        // Comment out Nimble `expect` calls for now to avoid runtime issues in Swift Testing.
-        let expectPattern = try! Regex(#"expect\("#)
-        return content.replacing(expectPattern, with: "// Convert to `#expect`: expect(")
+        return tree.formatted().description
     }
 }

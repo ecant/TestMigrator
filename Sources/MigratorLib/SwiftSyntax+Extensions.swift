@@ -77,10 +77,12 @@ extension FunctionCallExprSyntax {
     }
 
     var isKnownBlock: Bool {
-        self.isBeforeEachBlock || self.isAfterEachBlock || self.isItBlock || self.isDescribeOrContextBlock || self.isJustBeforeEachBlock
+        self.isBeforeEachBlock || self.isAfterEachBlock || self.isItBlock || self.isItBehavesLikeBlock || self.isDescribeOrContextBlock || self.isJustBeforeEachBlock
     }
 
     var isItBlock: Bool { isBlock(matchingIdentifier: "it") }
+    
+    var isItBehavesLikeBlock: Bool { isBlock(matchingIdentifier: "itBehavesLike") }
 
     var isDescribeOrContextBlock: Bool {
         isBlock(matchingIdentifier: "describe") || isBlock(matchingIdentifier: "context")

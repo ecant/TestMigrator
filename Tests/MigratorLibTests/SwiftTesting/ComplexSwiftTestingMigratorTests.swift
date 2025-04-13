@@ -38,4 +38,10 @@ final class ComplexSwiftTestingMigratorTests: XCTestCase {
         let expectedOutput = contents("ExampleTests/NestedExampleTests.swift")
         try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
     }
+    
+    func testBehaviorExampleFile() throws {
+        let input = contents("ExampleSpecs/BehaviorExampleSpec.swift")
+        let expectedOutput = contents("ExampleTests/BehaviorExampleTests.swift")
+        try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
+    }
 }

@@ -41,17 +41,29 @@ enum QuickClassParser {
         var parsedTests: [ParsedQuickTest] = []
 
         override func visit(_ node: FunctionCallExprSyntax) -> SyntaxVisitorContinueKind {
-            guard node.isItBlock else { return .visitChildren }
-
-            guard let description = node.blockDescription,
-                let itBlockContents = node.trailingClosure?.statements
-            else {
-                return .skipChildren
+            let testDescription: String
+            let testBlockContents: CodeBlockItemListSyntax
+            
+            if node.isItBlock {
+                guard let description = node.blockDescription, let itBlockContents = node.trailingClosure?.statements else {
+                    return .skipChildren
+                }
+                testDescription = description
+                testBlockContents = itBlockContents
+            } else if node.isItBehavesLikeBlock {
+                guard let description = node.arguments.first?.expression.description, let itBehavesLikeBlockContents = node.parent?.as(CodeBlockItemSyntax.self) else {
+                    return .skipChildren
+                }
+                let behaviorName = description.trimmingCharacters(in: .whitespacesAndNewlines).split(separator: ".").filter { $0 != "self" }.joined(separator: "")
+                testDescription = "itBehavesLike\(behaviorName)"
+                testBlockContents = CodeBlockItemListSyntax([itBehavesLikeBlockContents])
+            } else {
+                return .visitChildren
             }
 
             let initialTest = ParsedQuickTest(
-                itBlock: itBlockContents,
-                descriptions: [description],
+                itBlock: testBlockContents,
+                descriptions: [testDescription],
                 describeBlocks: [])
 
             let result = Self.parseTestAndAncestors(node: node, result: initialTest)

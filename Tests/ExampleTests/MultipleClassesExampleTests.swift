@@ -3,8 +3,8 @@ import Testing
 
 @Suite struct FirstClassExampleTests {
     @Test func doesTheThing() async throws {
-        // Convert to `#expect`: expect(true).to(beTrue())
-        // Convert to `#expect`: expect(false).to(beFalse())
+        expect(true).to(beTrue())
+        expect(false).to(beFalse())
     }
 }
 
@@ -21,7 +21,7 @@ enum SomeNamespace {
 
         @Test func doesTheThingAlso() async throws {
             FakeService().makeItSo()
-            // Convert to `#expect`: expect("").to(beEmpty())
+            expect("").to(beEmpty())
         }
     }
 

@@ -27,6 +27,9 @@ extension Collection {
 
 extension String {
     func toCamelCase() -> String {
+        // If the string doesn't contain spaces, assume it's already in camelCase or a single word — return as-is
+        guard self.contains(" ") else { return self }
+        
         let components = self.split(separator: " ").filter { !$0.isEmpty }
 
         guard let first = components.first?.lowercased() else {
@@ -35,5 +38,9 @@ extension String {
 
         let rest = components.dropFirst().map { $0.capitalized }
         return ([first] + rest).joined()
+    }
+
+    func removingNonAlphanumerics() -> String {
+        self.components(separatedBy: .alphanumerics.inverted).joined()
     }
 }

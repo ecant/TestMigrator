@@ -33,10 +33,46 @@ final class SimpleSwiftTestingMigratorTests: XCTestCase {
         let expectedOutput = "@Suite struct ExampleTests {\n\n}"
         try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
     }
-    
+
     func testEmptySpecFunctionReturnsNoTests() throws {
         let input = "class ExampleSpec: QuickSpec { override class func spec() {} }"
         let expectedOutput = "@Suite struct ExampleTests {\n\n}"
+        try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
+    }
+
+    func testSimpleFunctionConverted() throws {
+        let input = """
+            class ExampleSpec: QuickSpec { 
+                override class func spec() {  
+                    it("does the thing") {}
+                } 
+            }
+            """
+        let expectedOutput = """
+            @Suite struct ExampleTests {
+                @Test func doesTheThing() async throws {
+
+                }
+            }
+            """
+        try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
+    }
+
+    func testRemovesNonAlphaNumericsFromTestName() throws {
+        let input = """
+            class ExampleSpec: QuickSpec { 
+                override class func spec() {  
+                    it("calls the client_service()") {}
+                } 
+            }
+            """
+        let expectedOutput = """
+            @Suite struct ExampleTests {
+                @Test func callsTheClientService() async throws {
+
+                }
+            }
+            """
         try migrateAndAssertEqual(input, expectedOutput, mode: .swifttesting)
     }
 }

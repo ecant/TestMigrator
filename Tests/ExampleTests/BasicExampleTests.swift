@@ -6,7 +6,7 @@ import Testing
         print("prepare stuff")
         print("prepare more stuff")
 
-        // Convert to `#expect`: expect(true).to(beTrue())
-        // Convert to `#expect`: expect(false).to(beFalse())
+        expect(true).to(beTrue())
+        expect(false).to(beFalse())
     }
 }

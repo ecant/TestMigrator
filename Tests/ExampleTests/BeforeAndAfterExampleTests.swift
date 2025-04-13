@@ -16,8 +16,8 @@ import Testing
         print("top-level justBeforeEach")
 
         print(helloWorld)
-        // Convert to `#expect`: expect(true).to(beTrue())
-        // Convert to `#expect`: expect(false).to(beFalse())
+        expect(true).to(beTrue())
+        expect(false).to(beFalse())
 
         print("top-level teardown")
 
